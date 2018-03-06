@@ -64,6 +64,7 @@ export class UploadManager {
         return Promise.reject(err);
       }
     }
+<<<<<<< HEAD
     let upload = getUploadUrl(this.config, this.token).then(res => {
       this.uploadUrl = res;
       this.uploadAt = new Date().getTime();
@@ -92,6 +93,32 @@ export class UploadManager {
       this.onError(err);
     });
     return upload;
+=======
+    let result = getUploadUrl(this.config, this.token)
+    result.then(res => {
+      this.uploadUrl = res;
+      this.uploadAt = new Date().getTime();
+      let upload = this.file.size > BLOCK_SIZE ? this.resumeUpload() : this.directUpload();
+      upload.then(res => {
+        this.onComplete(res.data);
+        if(!this.config.disableStatisticsReport){
+          this.sendLog(res.reqId, 200);
+        }
+      }, err => {})
+      return upload;
+    }).catch(err => {
+      this.onError(err);
+      if(err.isRequestError && !this.config.disableStatisticsReport){
+        if(err.code !== 0){
+          this.sendLog(err.reqId, err.code);
+        }else{
+          this.sendLog("", -2);
+        }
+      }
+      this.stop();
+    })
+    return result
+>>>>>>> 当region不设置时自动分析上传区域
   }
 
   stop() {
