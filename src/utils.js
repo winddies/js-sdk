@@ -224,13 +224,19 @@ export function getDomainFromUrl (url) {
 // 构造区域上传url
 export function getUploadUrl(config, token) {
 <<<<<<< HEAD
+<<<<<<< HEAD
   let protocol = window.location.protocol;
   if (config.region != null){
+=======
+  let protocol = window.location.protocol;
+  if(config.region != null){
+>>>>>>> update
     let upHosts = regionUphostMap[config.region];
     let host = config.useCdnDomain ? upHosts.cdnUphost : upHosts.srcUphost;
     return Promise.resolve(`${protocol}//${host}`);
   }  
   return getUpHosts(token)
+<<<<<<< HEAD
     .then(res => {
       let hosts = res.data.up.acc.main;
       return (`${protocol}//${hosts[0]}`);
@@ -244,14 +250,17 @@ export function getUploadUrl(config, token) {
       resolve(`${protocol}//${host}`);
     }
     getUpHosts(token)
+=======
+>>>>>>> update
     .then(res => {
       let hosts = res.data.up.acc.main;
-      resolve(`${protocol}//${hosts[0]}`);
-    }).catch(err => {
-      reject(err)
+      return (`${protocol}//${hosts[0]}`);
     })
+<<<<<<< HEAD
   })
 >>>>>>> 当region不设置时自动分析上传区域
+=======
+>>>>>>> update
 }
 
 function getPutPolicy(token) {
@@ -284,19 +293,24 @@ function getUpHosts(token) {
     }
     return putPolicy;
   } catch(err) {
-    return err
+    return err;
   }
-};
+}
 
 function getUpHosts(token) {
   let putPolicy = getPutPolicy(token);
   if(putPolicy.bucket){
-    let uphosts_url = window.location.protocol + "//api.qiniu.com/v2/query?ak=" + putPolicy.ak + "&bucket=" + putPolicy.bucket;
-    return request(uphosts_url, { method: "GET" })
+    let url = window.location.protocol + "//api.qiniu.com/v2/query?ak=" + putPolicy.ak + "&bucket=" + putPolicy.bucket;
+    return request(url, { method: "GET" })
   }
+<<<<<<< HEAD
   return Promise.reject(err)
 };
 >>>>>>> 当region不设置时自动分析上传区域
+=======
+  return Promise.reject(putPolicy);
+}
+>>>>>>> update
 
 
 export function isContainFileMimeType(fileType, mimeType){
