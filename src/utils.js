@@ -1,9 +1,13 @@
 import { urlSafeBase64Encode, urlSafeBase64Decode } from "./base64";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { regionUphostMap } from "./config";
 =======
 import { regionUphostMap, region } from "./config";
 >>>>>>> 当region不设置时自动分析上传区域
+=======
+import { regionUphostMap } from "./config";
+>>>>>>> 增加eslint格式校验
 import SparkMD5 from "spark-md5";
 
 // 对上传块本地存储时间检验是否过期
@@ -229,8 +233,12 @@ export function getUploadUrl(config, token) {
   if (config.region != null){
 =======
   let protocol = window.location.protocol;
+<<<<<<< HEAD
   if(config.region != null){
 >>>>>>> update
+=======
+  if (config.region != null){
+>>>>>>> 增加eslint格式校验
     let upHosts = regionUphostMap[config.region];
     let host = config.useCdnDomain ? upHosts.cdnUphost : upHosts.srcUphost;
     return Promise.resolve(`${protocol}//${host}`);
@@ -255,22 +263,30 @@ export function getUploadUrl(config, token) {
     .then(res => {
       let hosts = res.data.up.acc.main;
       return (`${protocol}//${hosts[0]}`);
+<<<<<<< HEAD
     })
 <<<<<<< HEAD
   })
 >>>>>>> 当region不设置时自动分析上传区域
 =======
 >>>>>>> update
+=======
+    });
+>>>>>>> 增加eslint格式校验
 }
 
 function getPutPolicy(token) {
   let segments = token.split(":");
   let ak = segments[0];
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 增加eslint格式校验
   let putPolicy = JSON.parse(urlSafeBase64Decode(segments[2]));
   putPolicy.ak = ak;
   putPolicy.bucket = putPolicy.scope.split(":")[0];
   return putPolicy;
+<<<<<<< HEAD
 }
 
 function getUpHosts(token) {
@@ -291,20 +307,27 @@ function getUpHosts(token) {
   } catch(err) {
     return err;
   }
+=======
+>>>>>>> 增加eslint格式校验
 }
 
 function getUpHosts(token) {
-  let putPolicy = getPutPolicy(token);
-  if(putPolicy.bucket){
+  try {
+    let putPolicy = getPutPolicy(token);
     let url = window.location.protocol + "//api.qiniu.com/v2/query?ak=" + putPolicy.ak + "&bucket=" + putPolicy.bucket;
-    return request(url, { method: "GET" })
+    return request(url, { method: "GET" });
+  } catch (e) {
+    return Promise.reject(e);
   }
+<<<<<<< HEAD
 <<<<<<< HEAD
   return Promise.reject(err)
 };
 >>>>>>> 当region不设置时自动分析上传区域
 =======
   return Promise.reject(putPolicy);
+=======
+>>>>>>> 增加eslint格式校验
 }
 >>>>>>> update
 
