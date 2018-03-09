@@ -88,6 +88,9 @@ export class UploadManager {
           this.putFile();
           return;
         }
+        if (!this.config.disableStatisticsReport){
+          err.code === 0 ? this.sendLog("", -2) : this.sendLog(err.reqId, err.code);
+        } 
       }
       this.onError(err);
     });
