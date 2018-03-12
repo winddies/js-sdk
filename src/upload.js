@@ -48,7 +48,6 @@ export class UploadManager {
     this.onData = () => {};
     this.onError = () => {};
     this.onComplete = () => {};
-    this.retryCount = 0;
     Object.assign(this, handlers);
   }
 
@@ -95,16 +94,11 @@ export class UploadManager {
             this.sendLog(err.reqId, err.code);
           }
         } 
-        // 出现 599 重试，最多重试 6 次
         if (err.code === 599){
-          if (this.retryCount < 6){
-            this.retryCount++;
+          if (this.config.retryCount-- > 0){
             this.putFile();
             return;
           }
-          // 重试过程中遇到 599 不需要 onError,当超过最大次数后再 onError
-          this.onError(err);
-          return;
         }
       }
       this.onError(err);

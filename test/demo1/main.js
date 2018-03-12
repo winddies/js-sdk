@@ -4,16 +4,8 @@
     var config = {
       useCdnDomain: true,
       disableStatisticsReport: false,
-<<<<<<< HEAD
-<<<<<<< HEAD
       retryCount: 6,
       region: qiniu.region.z2
-=======
-      region: qiniu.region.z2,
->>>>>>> 当region不设置时自动分析上传区域
-=======
-      region: qiniu.region.z2
->>>>>>> update
     };
     var putExtra = {
       fname: "",
